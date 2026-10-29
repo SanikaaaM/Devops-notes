@@ -1,0 +1,10 @@
+local Debian::
+aws console login
+terraform installation :terraform documentation
+terraform:---
+write
+initialize 
+validate(to check syntax & config)
+plan(to generate)
+apply
+after this you can destroy terraform
