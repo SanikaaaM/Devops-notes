@@ -1,0 +1,38 @@
+pipeline {
+    agent any
+    environment {
+    mypass= credentials('mypass')
+    }
+    stages {
+        stage('User'){
+            steps{
+                sh 'whoami'
+            }
+        }
+        stage('Git Pull') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/USERNAME/project.git'
+            }
+        }
+        stage('Docker Login') {
+            steps {
+                sh 'echo $mypass | docker login -u USERNAME --password-stdin'
+                sh 'docker login'
+            }   
+        }
+        stage('Pull Container') {
+            steps {
+                // Get some code from a GitHub repository
+                sh 'docker pull USERNAME/itiss'
+            }
+        }
+        stage('Run Container') {
+            steps {
+                // Get some code from a GitHub repository
+                sh 'docker run --name myweb -d -p 8000:80 USERNAME/itiss'
+            }
+        }   
+
+            }
+        }

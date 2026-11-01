@@ -1,0 +1,85 @@
+Server -> pserver
+client -> pclient
+
+ping each other with the name (static /etc/hosts)
+
+###SERVER
+
+apt update
+apt install puppetserver -y
+
+puppetserver --version
+sudo systemctl enable puppetserver
+
+
+################
+nano /etc/puppet/puppet.conf
+
+[main]
+server = pserver
+runinterval = 60
+
+####
+sudo systemctl start puppetserver
+
+systemctl is-active puppetserver
+
+ss -antp
+it's working on the port 8140
+
+
+# to check the configuration
+sudo puppet config print server
+
+output - pserver
+
+
+################################CLIENT
+
+sudo apt install puppet-agent -y
+
+
+sudo nano /etc/puppet/puppet.conf
+
+[main]
+server = pserver
+runinterval = 60
+
+sudo systemctl enable puppet
+sudo systemctl start puppet
+
+
+sudo puppet config print server
+output - pserver
+
+
+####
+agent
+
+sudo puppet agent -t
+
+ Server
+sudo puppetserver ca list
+
+
+Output -
+ pclient       (SHA256)  00:5A:BF:39:56:6C:3C:B4:E0:5E:F7:11:18:C5:C6:81:E0:E9:5C:06:74:3F:99:6D:37:9F:DF:82:E1:02:5D:B1
+
+Sign the certificate
+
+# sudo puppetserver ca sign --certname pclient
+
+################
+Puppet Server
+
+star@pserver:~$ sudo nano /etc/puppet/code/environments/production/manifests/site.pp
+node 'pclient'{
+        package { 'apache2':
+                ensure => installed,
+}
+}
+#################
+
+
+
+

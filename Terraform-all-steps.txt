@@ -1,0 +1,70 @@
+#!/bin/bash
+
+#16:00 30-10-2026
+# Provisioning EC2 with using the Terraform
+#Terraform -> Local Machine (Debian - 13.7)
+
+#Username - star
+#Machine -> updated
+###############################################
+# Dependency gpg, curl, wget
+
+sudo apt update
+
+sudo apt install curl wget gpg -y
+
+
+#Installation - Terraform installation on Debian
+
+wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(grep -oP '(?<=UBUNTU_CODENAME=).*' /etc/os-release || lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+
+sudo apt update && sudo apt install terraform -y
+
+terraform -v
+
+echo "Terraform Installed Successfully..!"
+
+###############STEPS FOR AWS + TERRAFORM#############################
+
+# To install awscli on Debian
+
+sudo apt install awscli -y
+
+# to print aws version
+
+aws --version
+
+# Ensure that you are creating an IAM user -> and generate the access key
+
+# Confiure the AWS
+#1. Command ----> aws configure
+# Details ->>???
+		a. ACCESS KEY		IAM USer -> Access key 
+		b. Secret Key		Copy secret key and paste it here (be careful your secret is visible)
+		c. default Region	Region Name
+		d. output format	json
+
+
+#AWS CLI -> Documentation
+# https://docs.aws.amazon.com/pdfs/cli/latest/userguide/aws-cli.pdf
+
+aws sts get-caller-identity
+
+# Terraform Author
+# Terraform operations
+	initialization
+	syntax clean
+	syntax validate
+	plan 
+	apply
+	destroy
+
+
+
+
+
+
+
+
